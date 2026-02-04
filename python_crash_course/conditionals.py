@@ -22,19 +22,60 @@ else:
     print("You are not allowed to vote")
 
 
+
+
+# Equality and Inequality checks
+
+# Equality (==) checks VALUE, not meaning
+a = 4
+print(a == 4)   # True
+print(a == 10)   # False
+
+
+# Inequality (!=)
+requested_items = ['clove', 'banana shake']
+
+if 'banana shake' != 'apple juice':
+    print("Different items")
+
+
+
+# Logical operators: AND / OR
+age = 18
+has_id = True
+
+# AND = both conditions must be True
+if age >= 18 and has_id:
+    print("Allowed entry")
+
+# OR = at least one condition must be true
+is_admin = False
+is_owner = True
+
+if is_admin or is_owner:
+    print("Access granted")
+
+
+
+
+
 # if-elif-else chain
+# Python stops checking after the first True condition.
+
 age = 13
+book = "Reverend Insanity"
 
 if age >= 18:
-    print("You can read adult books")
+    print(f"You can read {book}")
 elif age >= 13:
-    print("You can access teen contents")
+    print('Restricted access')
 else:
-    print("You can only access kids content")
+    print("Access denied")
 
 
 
 # Multiple independent if statements
+# Each condition is checked separately. Useful when multiple actions may apply.
 requested_toppings = ["chilli", "onion", "capsicum"]
 
 if "chilli" in requested_toppings:
@@ -56,6 +97,18 @@ for user in users:
         print(f"Hello {user.title()}")
 
 
+
+
+
+
+
+# Membership test
+locations = ['uk', 'us', 'norway']
+submit_location = ['japan']
+
+# 'not in' checks absence
+if submit_location not in locations:
+    print(f"{submit_location} is not in the allowed list")
 
 
 # Checking for an empty list
