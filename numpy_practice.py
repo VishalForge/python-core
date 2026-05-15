@@ -40,3 +40,50 @@ print(arr[1:])  # Extract every element starting from index 1
 c = np.arange(1, 26).reshape(5, 5)
 print(c)
 print(c[1:4, 1:4])
+
+# 7) Extracting negative integers
+arr = np.array([3, -1, 7, -4, 2, -9, 5, -2])
+print(arr[arr>0])
+
+
+# 8) comvert numbers greater than 0.5 into 1 and rest into 0
+arr1 = np.random.rand(4, 4)
+print(arr1)
+
+binary_arr1 = (arr1 > 0.5).astype(int)  # astype() func will convert True into 1 and False into 0
+print(binary_arr1)
+
+
+
+# Topic = Shape and Reshaping
+
+# 9) 
+matrix = np.arange(12) 
+print(matrix)
+print(matrix.reshape(3, 4))
+print(matrix.reshape(2, 6))
+print(matrix.flatten())
+
+
+
+# 10) what does Transpose means
+a = np.array([[1, 2, 3], [4, 5, 6]])
+print("Original shape of the array: ", a.shape)
+transposed_a = a.T
+print("Shape of a after transpose: ", transposed_a.shape)  
+'''Transpose swaps rows with columns.
+Shape changes from (2 x 3) to (3 x 2).
+Element at (i,j) moves to (j,i)'''
+
+
+
+# 11) what is the reason for the shape of the c is (3, 3)
+a = np.arange(3).reshape(3, 1)
+b = np.arange(3).reshape(1, 3)
+
+c = a + b
+print(c)
+print(c.shape)
+'''Broadcasting: Numpy automatically expands the shapes (3, 1) and (1, 3)
+to make them compatible. It stretches the first array along the columns
+and the second array along the rows, resulting in a (3, 3) array'''
