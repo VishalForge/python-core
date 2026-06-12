@@ -12,5 +12,5 @@ Personal learning repository documenting my Python engineering foundation as par
 Python 3.x . Numpy . Pandas (coming)
 
 ## Roadmap
-This repo is part of a 7-month journey:
+This repo is part of my structured ML engineering roadmap:
 Python -> SQL -> ML Pipelines -> Drift Detection -> ML SafetyNet (flagship project)
