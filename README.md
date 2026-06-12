@@ -1,5 +1,5 @@
 # python-core
-Personal learning repository documenting my Python engineering foundation as part of a 7-month ML Engineering roadmap.
+Personal learning repository documenting my Python engineering foundation as part of a ML Engineering roadmap.
 
 ## Contents
 **python_crash_course/** - Excercises and notes from Python Crash Course (Eric Matthes).
