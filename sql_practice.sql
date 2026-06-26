@@ -173,3 +173,80 @@ FROM tutorial_aapl_historical_stock_price
 GROUP BY 1, 2
 ORDER BY 1, 2
 
+
+-- Topic: Count function
+-- query: that determines counts of every single column. With these counts, can you tell which column has the most null values?
+SELECT  Count(year) AS year_count,
+        Count(month) AS month_count,
+        COUNT(date) AS date_count,
+        COUNT(open) AS open_count,
+        COUNT(low) AS low_count,
+        COUNT(high) AS high_count,
+        COUNT(close) AS close_count,
+        COUNT(volume) AS vol_count
+                
+FROM tutorial.aapl_historical_stock_price
+-- The column which returns the lowest count has the most Null values.
+
+
+
+-- Topic: Sum function
+-- query:  calculate the average opening price
+SELECT SUM(open) / COUNT(open) AS avg_opening_price
+FROM tutorial.aapl_historical_stock_price
+
+
+-- Topic: MIN & MAX function
+-- query: What was the highest single-day increase in Apple's share value?
+SELECT MAX(close - open) AS highest_increase
+FROM tutorial_aapl_historical_stock_price
+
+-- query: What was Apple's lowest stock price (at the time of this data collection)?
+SELECT MIN(low) AS lowest_price
+FROM tutorial_aapl_historical_stock_price
+
+
+-- Topic: Average function
+-- query: Write a query that calculates the average daily trade volume for Apple stock.
+SELECT AVG(volume) AS avg_daily_vol
+FROM tutorial_aapl_historical_stock_price
+
+
+-- Topic: Having clause
+-- query: Find every month during which AAPL stock worked its way over $400/share.
+SELECT year,
+       month,
+       MAX(high) AS month_high
+FROM tutorial_aapl_historical_stock_price
+GROUP BY year, month
+HAVING MAX(high) > 400
+ORDER BY year, month
+
+
+
+-- Topic: CASE statement
+-- query: column that is flagged "yes" when a player is from California, and sort the results with those players first
+SELECT player_name,
+       CASE WHEN hometown = 'CA' THEN 'yes'
+       ELSE 'no' END AS from_california
+FROM benn.college_football_players
+ORDER BY from_california
+
+
+/* query: Write a query that includes players' names and a column that 
+classifies them into four categories based on height. Keep in mind that the
+ answer we provide is only one of many possible answers, since you could divide players' heights in many ways.
+ */
+ SELECT player_name,
+        height,
+        CASE WHEN height > 75 THEN 'over_75'
+        WHEN height > 73 AND height <= 75 THEN '74-75'
+        WHEN height > 70 AND height <= 73 THEN '71-73'
+        ELSE 'under_70' END AS height_group
+FROM benn_college_football_players
+
+-- query: selects all columns from benn.college_football_players and adds an additional column that displays the player's name if that player is a junior or senior.
+SELECT *,
+       CASE WHEN year IN('JR', 'SR') THEN player_name
+       ELSE NULL END AS additional_column
+FROM benn_college_football_players
