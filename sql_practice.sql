@@ -250,3 +250,92 @@ SELECT *,
        CASE WHEN year IN('JR', 'SR') THEN player_name
        ELSE NULL END AS additional_column
 FROM benn_college_football_players
+
+
+-- query: count the number of 300lb+ players for each of the following regions: West Coast (CA, OR, WA), Texas, and Other (everywhere else).
+SELECT CASE WHEN state IN('CA', 'OR', 'WA') THEN 'west coast'
+       WHEN state = 'TX' THEN 'Texas'
+       ELSE 'other' END AS weight_region_group,
+       COUNT(state) AS 'players'
+FROM benn_college_football_players
+WHERE weight >= 300
+GROUP BY weight_region_group
+
+
+/* query: display the number of players in each state, with FR, SO, JR, and SR players 
+in separate columns and another column for the total number of players. 
+Order results such that states with the most players come first. */
+SELECT state,
+       COUNT(CASE WHEN year = 'FR' THEN 1 ELSE NULL END) AS 'fr_count',
+       COUNT(CASE WHEN year = 'SO' THEN 1 ELSE NULL END) AS 'so_count',
+       COUNT(CASE WHEN year = 'JR' THEN 1 ELSE NULL END) AS 'jr_count',
+       COUNT(CASE WHEN year = 'SR' THEN 1 ELSE NULL END) AS 'sr_count',
+       COUNT(1) AS players_count
+FROM benn_college_football_players
+GROUP BY state
+ORDER BY players_count DESC
+
+
+-- query: show the number of players at schools with names that start with A through M,
+-- and the number at schools with names starting with N - Z.
+SELECT CASE WHEN school_name >= 'n' THEN 'N-Z'
+       WHEN school_name < n THEN 'A-M'
+       ELSE NULL END AS school_group
+       COUNT(1) AS players_count
+FROM benn_college_football_players
+GROUP BY 1
+
+
+
+-- Topic: DISTINCT
+-- query: returns the unique values in the year column, in chronological order.
+SELECT DISTINCT year
+FROM tutorial_aapl_historical_stock_price
+ORDER BY year
+
+
+-- query: count the number of unique values in the month column for each year.
+SELECT year,
+      COUNT(DISTINCT month) AS distinct_month
+FROM tutorial_aapl_historical_stock_price
+GROUP BY year
+ORDER BY year
+
+
+-- query: separately counts the number of unique values in the month column and the number of unique values in the `year` column.
+SELECT COUNT(DISTINCT year) AS distinct_year,
+       COUNT(DISTINCT month) AS distinct_month
+FROM tutorial_aapl_historical_stock_price
+
+
+
+/*Topic: query that selects the school name, player name, position, and 
+weight for every player in Georgia, ordered by weight (heaviest to lightest)
+Be sure to make an alias for the table, and to reference all column names
+ in relation to the alias.
+*/
+SELECT players.player_name,
+      players.school_name,
+      players.position,
+      players.weight
+FROM benn_college_football_players players
+WHERE players.state = 'GA'
+ORDER BY players.weight DESC
+
+-- Topic: Inner Join
+SELECT players.*,
+       teams.*
+FROM benn_college_football_players players
+JOIN benn_college_football_teams teams
+ON players.school_name = teams.school_name
+
+
+-- query: displays player names, school names and conferences for schools in the "FBS (Division I-A Teams)" division
+SELECT players.player_name,
+       players.school_name,
+       teams.conference
+FROM benn_college_football_players players
+JOIN benn_college_football_teams teams
+ON players.school_name = teams.school_name
+WHERE teams.division = 'FBS (Division I-A Teams)'
+
