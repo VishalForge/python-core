@@ -339,3 +339,64 @@ JOIN benn_college_football_teams teams
 ON players.school_name = teams.school_name
 WHERE teams.division = 'FBS (Division I-A Teams)'
 
+
+
+---------------------------------------------------------------------------
+
+-- query: list every product under 900 USD, cheapest first
+SELECT name, price
+FROM products
+WHERE price <= 900
+ORDER BY price;
+
+
+-- query: Find every customer whose name contains the letter 'a' anywhere
+SELECT name
+FROM customers
+WHERE name LIKE '%a%';
+
+-- query: List the 3 most recent transactions by created_at.
+SELECT transaction_id, created_at
+FROM transactions
+ORDER BY created_at;
+
+-- query: Find customer whose email or age is NULL.
+SELECT name AS customer_name, email, age
+FROM customers
+WHERE email IS NULL OR age IS NULL;
+
+
+-- query: Find customers whose values are not NUll.
+SELECT *
+FROM customers
+WHERE email IS NOT NULL AND age IS NOT NULL
+
+
+-- query: Find product that have price between 200 and 1000
+SELECT name, price, stock
+FROM products
+WHERE price BETWEEN 200 AND 1000
+
+-- query: Using most of the clause for query
+SELECT customer_id, SUM(amount) AS total_spend
+FROM transactions
+WHERE satus = 'completed'
+GROUP BY customer_id
+HAVING SUM(amount) > 1000
+ORDER BY total_spend DESC
+
+
+-- query: 
+SELECT product_id, name
+FROM products
+WHERE stock >= 30 AND (category = 'electronics')
+
+
+-- query:
+SELECT DISTINCT customer_id
+FROM transactions
+
+-- query:
+SELECT *
+FROM products
+WHERE category IN('electronics', 'home')
