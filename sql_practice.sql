@@ -400,3 +400,80 @@ FROM transactions
 SELECT *
 FROM products
 WHERE category IN('electronics', 'home')
+
+-- query: Total revenue from transactions with status = 'completed' only
+SELECT SUM(amount)
+FROM transactions
+WHERE status = 'completed'
+
+
+-- query: 
+SELECT category, MAX(price) as max_price
+FROM products
+GROUP BY category
+
+-- query:
+SELECT status, AVG(amount) AS avg_price
+FROM transactions
+GROUP BY status
+
+-- query:
+SELECT category, MIN(price) AS min_price
+FROM products
+GROUP BY category
+
+-- query:
+SELECT COUNT(*) AS total_rows, COUNT(age) AS age, COUNT(created_at) AS date, COUNT(email) AS email
+FROM customers;
+
+-- query:
+SELECT category, AVG(price) as avg_price
+FROM products
+GROUP BY category
+HAVING AVG(price) > 1000;
+
+
+-- query:
+SELECT customer_id, COUNT(*) AS total_transactions, SUM(amount) AS amount_sum
+FROM transactions
+WHERE status = 'completed'
+GROUP BY customer_id
+HAVING COUNT(*) > 1;
+
+-- query:
+SELECT customer_id, COUNT(*) AS total_transactions, SUM(amount) AS amount_sum
+FROM transactions
+WHERE status = 'pending'
+GROUP BY customer_id
+HAVING COUNT(*) > 1;
+
+-- query:
+SELECT customer_id, COUNT(*) total_transactions, SUM(amount) amount_sum
+FROM transactions
+WHERE status = 'completed'
+GROUP BY customer_id
+HAVING COUNT(*) >= 2 AND SUM(amount) > 1000;
+
+
+-- query: 
+SELECT customer_id, COUNT(*) total_transactions
+FROM transactions
+GROUP BY customer_id, status
+HAVING COUNT(*)> 1 AND status = 'completed';
+
+-- This will throw an error because any column in HAVING clause must be either
+-- in GROUP BY, or wrapped in an aggregate function.
+
+
+-- query:
+SELECT COUNT(DISTINCT category) AS distinct_category
+FROM products;
+
+-- query:
+SELECT COUNT(DISTINCT customer_id) AS customer_id
+FROM transactions
+WHERE status = 'completed';
+
+
+
+
