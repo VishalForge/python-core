@@ -501,5 +501,26 @@ FROM customers c
 RIGHT JOIN transactions t ON c.customer_id = t.customer_id
 
 
+-- query:
+SELECT c.name, COUNT(t.customer_id)
+FROM customers c
+LEFT JOIN transactions t ON c.customer_id = t.customer_id
+WHERE status = 'completed'
+GROUP BY c.name
 
 
+-- query:
+SELECT c1.name AS customer1, c2.name AS customer2
+FROM customers c1
+CROSS JOIN customers c2
+WHERE c1.customer_id < c2.customer_id
+     AND (c1.age >= c2.age + 10 OR c2.age >= c1.age + 10)
+
+
+-- query:
+SELECT c.name, t.transaction_id
+FROM customers c
+FULL OUTER JOIN transactions t ON c.customer_id = t.customer_id
+
+/* Customers with no transactions will have NULL in their transaction_id column.
+Trnsaction with no customer will have NULL in their name column. */
