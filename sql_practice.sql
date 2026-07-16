@@ -475,5 +475,31 @@ FROM transactions
 WHERE status = 'completed';
 
 
+-- query:
+SELECT p.name
+FROM products p
+LEFT JOIN transactions t ON p.product_id = t.product_id
+WHERE t.transaction_id IS NULL
+
+-- query:
+SELECT c1.name AS customer_1, c2.name AS customer 2
+FROM customers c1
+INNER JOIN customers c2 ON c1.age = c2.age
+WHERE c1.customer_id < c2.customer_id
+
+-- query:
+-- First part: THE LEFT JOIN
+SELECT c.name, t.transaction_id
+FROM customers c
+LEFT JOIN transactions t ON c.customer_id = t.customer_id
+
+UNION
+
+-- Second part: THE RIGHT JOIN
+SELECT c.name, t.transaction_id
+FROM customers c
+RIGHT JOIN transactions t ON c.customer_id = t.customer_id
+
+
 
 
