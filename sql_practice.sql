@@ -482,7 +482,7 @@ LEFT JOIN transactions t ON p.product_id = t.product_id
 WHERE t.transaction_id IS NULL
 
 -- query:
-SELECT c1.name AS customer_1, c2.name AS customer 2
+SELECT c1.name AS customer_1, c2.name AS customer_2
 FROM customers c1
 INNER JOIN customers c2 ON c1.age = c2.age
 WHERE c1.customer_id < c2.customer_id
@@ -504,8 +504,7 @@ RIGHT JOIN transactions t ON c.customer_id = t.customer_id
 -- query:
 SELECT c.name, COUNT(t.customer_id)
 FROM customers c
-LEFT JOIN transactions t ON c.customer_id = t.customer_id
-WHERE status = 'completed'
+LEFT JOIN transactions t ON c.customer_id = t.customer_id AND t.status = 'completed'
 GROUP BY c.name
 
 
@@ -524,3 +523,16 @@ FULL OUTER JOIN transactions t ON c.customer_id = t.customer_id
 
 /* Customers with no transactions will have NULL in their transaction_id column.
 Trnsaction with no customer will have NULL in their name column. */
+
+
+WITH avg_spends AS (
+    SELECT customer_id, AVG(amount) AS avg_spend
+	FROM transactions
+	WHERE status = 'completed'
+	GROUP BY customer_id
+)
+
+SELECT c.name
+FROM customers c
+LEFT JOIN avg_spends as1 ON c.customer_id = as1.customer_id
+WHERE c.customer_id IN(SELECT customer_id FROM transactions t WHERE t.amount > avg_spend)
