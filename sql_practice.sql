@@ -525,14 +525,28 @@ FULL OUTER JOIN transactions t ON c.customer_id = t.customer_id
 Trnsaction with no customer will have NULL in their name column. */
 
 
-WITH avg_spends AS (
-    SELECT customer_id, AVG(amount) AS avg_spend
-	FROM transactions
-	WHERE status = 'completed'
-	GROUP BY customer_id
+-- query:
+WITH customer_totals AS (
+  SELECT customer_id, SUM(amount) AS total_spend
+  FROM transactions
+  WHERE status = 'completed'
+  GROUP BY customer_id
 )
 
 SELECT c.name
 FROM customers c
-LEFT JOIN avg_spends as1 ON c.customer_id = as1.customer_id
-WHERE c.customer_id IN(SELECT customer_id FROM transactions t WHERE t.amount > avg_spend)
+JOIN customer_totals ct ON c.customer_id = ct.customer_id
+WHERE ct.total_spend > (SELECT AVG(total_spend) FROM customer_totals);
+
+
+
+-- query:
+WITH valid_customers AS (
+  SELECT customer_id
+  FROM customers
+)
+
+SELECT t.transaction_id, t.customer_id
+FROM transactions T
+WHERE t.customer_id NOT IN (SELECT customer_id FROM valid_customers);
+
